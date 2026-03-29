@@ -15,11 +15,19 @@ export function notionHeaders() {
 }
 
 export async function queryDatabase(databaseId: string, body: object) {
+  const token = process.env.NOTION_TOKEN;
+  if (!token) {
+    console.warn('[Notion] NOTION_TOKEN is not set, returning empty results');
+    return { results: [] };
+  }
   const res = await fetch(`${NOTION_API}/databases/${databaseId}/query`, {
     method: 'POST',
     headers: notionHeaders(),
     body: JSON.stringify(body),
   });
-  if (!res.ok) throw new Error(`Notion query failed: ${res.status}`);
+  if (!res.ok) {
+    console.error(`[Notion] query failed: ${res.status} ${res.statusText}`);
+    return { results: [] };
+  }
   return res.json();
 }

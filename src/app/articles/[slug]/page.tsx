@@ -1,13 +1,8 @@
+export const runtime = 'edge';
+
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getArticles, getArticleBySlug } from "@/lib/articles";
-
-export const dynamic = 'force-static';
-
-export async function generateStaticParams() {
-  const articles = await getArticles();
-  return articles.map((a) => ({ slug: a.slug }));
-}
+import { getArticleBySlug } from "@/lib/articles";
 
 export async function generateMetadata({
   params,

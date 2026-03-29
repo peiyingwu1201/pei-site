@@ -1,15 +1,10 @@
+export const runtime = 'edge';
+
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getPortfolio, getPortfolioBySlug } from "@/lib/portfolio";
-
-export const dynamic = 'force-static';
-
-export async function generateStaticParams() {
-  const items = await getPortfolio();
-  return items.map((i) => ({ slug: i.slug }));
-}
+import { getPortfolioBySlug } from "@/lib/portfolio";
 
 export async function generateMetadata({
   params,

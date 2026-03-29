@@ -1,92 +1,119 @@
 import Link from "next/link";
 import { getFeaturedArticles } from "@/lib/articles";
 import { getFeaturedPortfolio } from "@/lib/portfolio";
-import { getFeaturedLearning } from "@/lib/learning";
 
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  const [articles, portfolio, learning] = await Promise.all([
+  const [articles, portfolio] = await Promise.all([
     getFeaturedArticles(),
     getFeaturedPortfolio(),
-    getFeaturedLearning(),
   ]);
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-20">
+    <div className="max-w-5xl mx-auto px-8">
+
       {/* Hero */}
-      <section className="mb-24">
-        <p className="text-indigo-500 font-medium mb-3">Hi, 我是</p>
-        <h1 className="text-5xl font-bold mb-4 leading-tight">Pei</h1>
-        <p className="text-xl text-gray-500 leading-relaxed max-w-xl">
-          分享設計、開發與學習的知識與作品。
-          <br />
-          專注於讓好內容被看見。
+      <section className="py-24 max-w-2xl">
+        <p className="text-xs font-label uppercase tracking-[0.15em] text-[#5c605a] mb-6">
+          Personal Studio
         </p>
-        <div className="flex gap-3 mt-8">
-          <Link href="/articles" className="bg-indigo-500 text-white text-sm px-5 py-2.5 rounded-lg hover:bg-indigo-600 transition-colors">
-            閱讀文章
+        <h1 className="font-headline text-[3.5rem] font-bold leading-[1.1] tracking-[-0.02em] text-[#2f342e] mb-6">
+          Welcome to your<br />
+          <em className="not-italic">Curated Atelier</em>
+        </h1>
+        <p className="font-body text-lg text-[#5c605a] leading-relaxed mb-10 max-w-lg">
+          A sanctuary for thoughts, sketches, and professional growth.
+          Let your creativity breathe in this digital craftspace.
+        </p>
+        <div className="flex gap-3">
+          <Link
+            href="/articles"
+            className="font-body text-sm bg-gradient-to-b from-[#5f5e5e] to-[#535252] text-[#faf7f7] px-5 py-2.5 rounded-[0.375rem] hover:scale-[0.98] transition-transform"
+          >
+            Explore Notes
           </Link>
-          <Link href="/portfolio" className="border border-gray-200 text-gray-600 text-sm px-5 py-2.5 rounded-lg hover:border-indigo-300 hover:text-indigo-500 transition-colors">
-            查看作品
+          <Link
+            href="/portfolio"
+            className="font-body text-sm bg-[#efe0d4] text-[#5a5047] px-5 py-2.5 rounded-[0.375rem] hover:scale-[0.98] transition-transform"
+          >
+            View Works
           </Link>
         </div>
       </section>
 
-      {/* Featured Articles */}
+      {/* Recent Articles */}
       {articles.length > 0 && (
-        <section className="mb-20">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold">精選文章</h2>
-            <Link href="/articles" className="text-sm text-indigo-500 hover:underline">全部文章 →</Link>
+        <section className="pb-20">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="font-headline text-[1.75rem] font-semibold text-[#2f342e]">
+              Recent Entries
+            </h2>
+            <Link href="/articles" className="font-label text-sm text-[#5c605a] hover:text-[#2f342e] transition-colors">
+              View All →
+            </Link>
           </div>
-          <ul className="space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {articles.slice(0, 3).map((article) => (
-              <li key={article.id}>
-                <Link href={`/articles/${article.slug}`} className="group block">
-                  <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    {article.publishedDate && (
-                      <time>{new Date(article.publishedDate).toLocaleDateString("zh-TW")}</time>
-                    )}
-                    {article.category && <><span>·</span><span>{article.category}</span></>}
-                  </div>
-                  <h3 className="font-semibold group-hover:text-indigo-500 transition-colors mb-1">
-                    {article.title}
-                  </h3>
-                  {article.summary && (
-                    <p className="text-sm text-gray-500 line-clamp-2">{article.summary}</p>
-                  )}
-                </Link>
-              </li>
+              <Link
+                key={article.id}
+                href={`/articles/${article.slug}`}
+                className="group bg-[#ffffff] rounded-[0.25rem] p-8 hover:shadow-[0_0_32px_0_rgba(47,52,46,0.06)] transition-shadow"
+              >
+                {article.category && (
+                  <span className="inline-block font-label text-xs uppercase tracking-[0.1em] text-[#5c605a] bg-[#e4f8f2] text-[#4d5f5b] px-3 py-1 rounded-full mb-4">
+                    {article.category}
+                  </span>
+                )}
+                <h3 className="font-headline text-[1.1rem] font-semibold text-[#2f342e] leading-snug mb-3 group-hover:text-[#5f5e5e] transition-colors">
+                  {article.title}
+                </h3>
+                {article.summary && (
+                  <p className="font-body text-sm text-[#5c605a] leading-relaxed line-clamp-3">
+                    {article.summary}
+                  </p>
+                )}
+                {article.publishedDate && (
+                  <p className="font-label text-xs text-[#787c75] mt-4">
+                    {new Date(article.publishedDate).toLocaleDateString("zh-TW")}
+                  </p>
+                )}
+              </Link>
             ))}
-          </ul>
+          </div>
         </section>
       )}
 
-      {/* Featured Portfolio */}
+      {/* Portfolio */}
       {portfolio.length > 0 && (
-        <section className="mb-20">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold">精選作品</h2>
-            <Link href="/portfolio" className="text-sm text-indigo-500 hover:underline">全部作品 →</Link>
+        <section className="pb-24">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="font-headline text-[1.75rem] font-semibold text-[#2f342e]">
+              Selected Works
+            </h2>
+            <Link href="/portfolio" className="font-label text-sm text-[#5c605a] hover:text-[#2f342e] transition-colors">
+              View All →
+            </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {portfolio.slice(0, 4).map((item) => (
               <Link
                 key={item.id}
                 href={`/portfolio/${item.slug}`}
-                className="group border border-gray-100 rounded-xl p-5 hover:shadow-md transition-shadow"
+                className="group bg-[#ffffff] rounded-[0.25rem] p-8 hover:shadow-[0_0_32px_0_rgba(47,52,46,0.06)] transition-shadow"
               >
-                <h3 className="font-semibold group-hover:text-indigo-500 transition-colors mb-1">
+                <h3 className="font-headline text-[1.1rem] font-semibold text-[#2f342e] mb-2 group-hover:text-[#5f5e5e] transition-colors">
                   {item.name}
                 </h3>
                 {item.description && (
-                  <p className="text-sm text-gray-500 line-clamp-2 mb-3">{item.description}</p>
+                  <p className="font-body text-sm text-[#5c605a] line-clamp-2 mb-4 leading-relaxed">
+                    {item.description}
+                  </p>
                 )}
                 {item.techStack.length > 0 && (
-                  <div className="flex gap-1.5 flex-wrap">
+                  <div className="flex gap-2 flex-wrap">
                     {item.techStack.slice(0, 3).map((tech) => (
-                      <span key={tech} className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">
+                      <span key={tech} className="font-label text-xs bg-[#e4f8f2] text-[#4d5f5b] px-3 py-1 rounded-full">
                         {tech}
                       </span>
                     ))}
@@ -98,30 +125,15 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Featured Learning */}
-      {learning.length > 0 && (
-        <section>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold">學習觀點</h2>
-            <Link href="/learning" className="text-sm text-indigo-500 hover:underline">全部觀點 →</Link>
+      {/* Empty state hero when no content */}
+      {articles.length === 0 && portfolio.length === 0 && (
+        <section className="pb-24">
+          <div className="bg-[#f4f4ef] rounded-[0.25rem] p-12 text-center">
+            <p className="font-body text-[#5c605a]">內容即將上線，敬請期待。</p>
           </div>
-          <ul className="space-y-4">
-            {learning.slice(0, 3).map((post) => (
-              <li key={post.id}>
-                <Link href={`/learning/${post.slug}`} className="group flex items-center justify-between">
-                  <div>
-                    <h3 className="font-medium group-hover:text-indigo-500 transition-colors">
-                      {post.title}
-                    </h3>
-                    {post.topic && <p className="text-sm text-gray-400">{post.topic}</p>}
-                  </div>
-                  <span className="text-gray-300 group-hover:text-indigo-400 transition-colors">→</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
         </section>
       )}
+
     </div>
   );
 }

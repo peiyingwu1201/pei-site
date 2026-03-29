@@ -1,26 +1,97 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import url("https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Surface hierarchy */
+  --color-surface: #faf9f5;
+  --color-surface-bright: #faf9f5;
+  --color-surface-dim: #d6dcd2;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f4f4ef;
+  --color-surface-container: #edeee8;
+  --color-surface-container-high: #e6e9e2;
+  --color-surface-container-highest: #e0e4dc;
+
+  /* Primary */
+  --color-primary: #5f5e5e;
+  --color-primary-dim: #535252;
+  --color-primary-fixed: #e4e2e1;
+  --color-primary-fixed-dim: #d6d4d3;
+  --color-primary-container: #e4e2e1;
+  --color-on-primary: #faf7f7;
+  --color-on-primary-fixed: #3f3f3f;
+  --color-on-primary-fixed-variant: #5c5b5b;
+  --color-on-primary-container: #525251;
+
+  /* Secondary */
+  --color-secondary: #685d54;
+  --color-secondary-dim: #5b5148;
+  --color-secondary-container: #efe0d4;
+  --color-secondary-fixed: #efe0d4;
+  --color-secondary-fixed-dim: #e1d2c6;
+  --color-on-secondary: #fff7f3;
+  --color-on-secondary-container: #5a5047;
+  --color-on-secondary-fixed: #473e35;
+  --color-on-secondary-fixed-variant: #645a50;
+
+  /* Tertiary */
+  --color-tertiary: #50635e;
+  --color-tertiary-dim: #455752;
+  --color-tertiary-container: #e4f8f2;
+  --color-tertiary-fixed: #e4f8f2;
+  --color-tertiary-fixed-dim: #d5eae3;
+  --color-on-tertiary: #e9fdf7;
+  --color-on-tertiary-container: #4d5f5b;
+  --color-on-tertiary-fixed: #3b4d49;
+  --color-on-tertiary-fixed-variant: #576a65;
+
+  /* Surface text */
+  --color-background: #faf9f5;
+  --color-on-background: #2f342e;
+  --color-on-surface: #2f342e;
+  --color-on-surface-variant: #5c605a;
+  --color-surface-variant: #e0e4dc;
+  --color-surface-tint: #5f5e5e;
+
+  /* Outline */
+  --color-outline: #787c75;
+  --color-outline-variant: #afb3ac;
+
+  /* Inverse */
+  --color-inverse-surface: #0d0f0d;
+  --color-inverse-on-surface: #9d9d9a;
+  --color-inverse-primary: #ffffff;
+
+  /* Error */
+  --color-error: #9e422c;
+  --color-error-dim: #5c1202;
+  --color-error-container: #fe8b70;
+  --color-on-error: #fff7f6;
+  --color-on-error-container: #742410;
+
+  /* Typography */
+  --font-headline: "Epilogue", serif;
+  --font-body: "Plus Jakarta Sans", sans-serif;
+  --font-label: "Plus Jakarta Sans", sans-serif;
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+
+  /* Border radius */
+  --radius: 0.125rem;
+  --radius-lg: 0.25rem;
+  --radius-xl: 0.5rem;
+  --radius-full: 0.75rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-surface);
+  color: var(--color-on-background);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
 }

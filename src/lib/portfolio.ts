@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { notion, DB } from "./notion";
 import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 
@@ -17,7 +18,7 @@ export type PortfolioItem = {
 };
 
 function toPortfolioItem(page: PageObjectResponse): PortfolioItem {
-  const p = (name: string) => (page.properties as Record<string, any>)[name];
+  const p = (name: string): any => page.properties[name];
 
   return {
     id: page.id,

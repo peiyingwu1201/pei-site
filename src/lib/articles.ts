@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { notion, DB } from "./notion";
 import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 
@@ -17,8 +18,8 @@ export type Article = {
   readingTime: number;
 };
 
-function getProperty(page: PageObjectResponse, name: string) {
-  return (page.properties as Record<string, any>)[name];
+function getProperty(page: PageObjectResponse, name: string): any {
+  return page.properties[name];
 }
 
 function toArticle(page: PageObjectResponse): Article {

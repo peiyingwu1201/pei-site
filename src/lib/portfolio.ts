@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { notion, DB } from "./notion";
-import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import { DB, queryDatabase } from "./notion";
 
 export type PortfolioItem = {
   id: string;
@@ -17,50 +16,43 @@ export type PortfolioItem = {
   completedDate: string | null;
 };
 
-function toPortfolioItem(page: PageObjectResponse): PortfolioItem {
-  const p = (name: string): any => page.properties[name];
-
+function toPortfolioItem(page: any): PortfolioItem {
+  const p = page.properties;
   return {
     id: page.id,
-    name: p("專案名稱")?.title?.[0]?.plain_text ?? "",
-    slug: p("Slug")?.rich_text?.[0]?.plain_text ?? "",
-    status: p("狀態")?.select?.name ?? "",
-    types: p("類型")?.multi_select?.map((t: any) => t.name) ?? [],
-    techStack: p("技術棧")?.multi_select?.map((t: any) => t.name) ?? [],
-    siteUrl: p("網站連結")?.url ?? null,
-    githubUrl: p("GitHub 連結")?.url ?? null,
-    coverImage: p("封面圖片")?.url ?? null,
-    description: p("簡介")?.rich_text?.[0]?.plain_text ?? "",
-    featured: p("精選作品")?.checkbox ?? false,
-    completedDate: p("完成日期")?.date?.start ?? null,
+    name: p["專案名稱"]?.title?.[0]?.plain_text ?? "",
+    slug: p["Slug"]?.rich_text?.[0]?.plain_text ?? "",
+    status: p["狀態"]?.select?.name ?? "",
+    types: p["類型"]?.multi_select?.map((t: any) => t.name) ?? [],
+    techStack: p["技術棧"]?.multi_select?.map((t: any) => t.name) ?? [],
+    siteUrl: p["網站連結"]?.url ?? null,
+    githubUrl: p["GitHub 連結"]?.url ?? null,
+    coverImage: p["封面圖片"]?.url ?? null,
+    description: p["簡介"]?.rich_text?.[0]?.plain_text ?? "",
+    featured: p["精選作品"]?.checkbox ?? false,
+    completedDate: p["完成日期"]?.date?.start ?? null,
   };
 }
 
 export async function getPortfolio(): Promise<PortfolioItem[]> {
-  const res = await notion.databases.query({
-    database_id: DB.portfolio,
+  const data = await queryDatabase(DB.portfolio, {
     sorts: [{ property: "完成日期", direction: "descending" }],
   });
-
-  return (res.results as PageObjectResponse[]).map(toPortfolioItem);
+  return data.results.map(toPortfolioItem);
 }
 
 export async function getFeaturedPortfolio(): Promise<PortfolioItem[]> {
-  const res = await notion.databases.query({
-    database_id: DB.portfolio,
+  const data = await queryDatabase(DB.portfolio, {
     filter: { property: "精選作品", checkbox: { equals: true } },
     sorts: [{ property: "完成日期", direction: "descending" }],
   });
-
-  return (res.results as PageObjectResponse[]).map(toPortfolioItem);
+  return data.results.map(toPortfolioItem);
 }
 
 export async function getPortfolioBySlug(slug: string): Promise<PortfolioItem | null> {
-  const res = await notion.databases.query({
-    database_id: DB.portfolio,
+  const data = await queryDatabase(DB.portfolio, {
     filter: { property: "Slug", rich_text: { equals: slug } },
   });
-
-  if (!res.results.length) return null;
-  return toPortfolioItem(res.results[0] as PageObjectResponse);
+  if (!data.results.length) return null;
+  return toPortfolioItem(data.results[0]);
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import { getPortfolio, getPortfolioBySlug } from "@/lib/portfolio";
 
@@ -60,8 +61,8 @@ export default async function PortfolioItemPage({
         </Link>
 
         {item.coverImage && (
-          <div className="aspect-video rounded-2xl overflow-hidden bg-gray-50 mb-8">
-            <img src={item.coverImage} alt={item.name} className="w-full h-full object-cover" />
+          <div className="relative aspect-video rounded-2xl overflow-hidden bg-gray-50 mb-8">
+            <Image src={item.coverImage} alt={item.name} fill className="object-cover" />
           </div>
         )}
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { getPortfolio } from "@/lib/portfolio";
 
@@ -27,11 +28,12 @@ export default async function PortfolioPage() {
               className="group border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
             >
               {item.coverImage && (
-                <div className="aspect-video bg-gray-50 overflow-hidden">
-                  <img
+                <div className="relative aspect-video bg-gray-50 overflow-hidden">
+                  <Image
                     src={item.coverImage}
                     alt={item.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
               )}

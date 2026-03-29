@@ -2,7 +2,6 @@ import Link from "next/link";
 import { getFeaturedArticles } from "@/lib/articles";
 import { getFeaturedPortfolio } from "@/lib/portfolio";
 
-export const revalidate = 3600;
 
 export default async function HomePage() {
   const [articles, portfolio] = await Promise.all([

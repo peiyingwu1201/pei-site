@@ -7,7 +7,6 @@ export const metadata: Metadata = {
   description: "Pei 的學習心得與知識整理，涵蓋前端、AI 工具、設計思維與職涯成長。",
 };
 
-export const revalidate = 3600;
 
 const difficultyColor: Record<string, string> = {
   入門: "bg-green-50 text-green-600",

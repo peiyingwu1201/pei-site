@@ -1,11 +1,9 @@
-export const runtime = 'edge';
-
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getPortfolio, getPortfolioBySlug } from "@/lib/portfolio";
 
-export const revalidate = 3600;
+export const dynamic = 'force-static';
 
 export async function generateStaticParams() {
   const items = await getPortfolio();

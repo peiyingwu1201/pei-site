@@ -7,7 +7,6 @@ export const metadata: Metadata = {
   description: "Pei 分享的技術文章與設計思考，涵蓋前端開發、AI 工具與工作流程。",
 };
 
-export const revalidate = 3600;
 
 export default async function ArticlesPage() {
   const articles = await getArticles();

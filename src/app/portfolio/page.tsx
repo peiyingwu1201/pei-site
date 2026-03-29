@@ -7,7 +7,6 @@ export const metadata: Metadata = {
   description: "Pei 的個人專案與作品，包含 Web 開發、UI/UX 設計等。",
 };
 
-export const revalidate = 3600;
 
 export default async function PortfolioPage() {
   const items = await getPortfolio();
